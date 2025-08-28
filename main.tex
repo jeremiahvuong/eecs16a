@@ -18,8 +18,24 @@
 \newpage
 
 \lecture[]{Introduction}
+Quick intro via a quasi-lecture on image processing (?).
 
+We can represent images via a linear combination of basis images.
+$$
+\vec{x} = \sigma_1 \vec{u}_1 + \ldots + \sigma_r \vec{u}_r
+$$
+Where $r$ is an incredibly large number.
 
+NOTE: that if we were to order the basis images by their importance, we can represent the image with a much smaller number of basis images,
+since the singular values $\sigma_i$ fall off logarithmically. (See: Singular value decomposition)
+
+For optimization, we can approxomate (get a smaller combination):
+$$ \vec{x} = \sigma_1 \vec{u}_1 + \ldots + \sigma_R \vec{u}_R $$
+where $r >> R$.
+
+Such that in fourier analysis, low frequency components (low detail) dominate.
+In facial recognition, we need to go further down the combination since the beginning combinations
+are features that most (all?) facies satisfy.
 
 
 \end{document}
