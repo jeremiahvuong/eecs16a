@@ -1,1 +1,1 @@
-# stanford econ160 game theory
+# berkeley eecs16a
