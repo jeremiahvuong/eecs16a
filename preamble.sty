@@ -167,7 +167,8 @@
 
 % Math shortcuts
 \RequirePackage{siunitx}  % formatting SI units (loaded before physics to avoid warning)
-\RequirePackage{physics-minimal, systeme, mathtools, nccmath}
+\RequirePackage{systeme, mathtools, nccmath}
+\IfFileExists{physics-minimal.sty}{\RequirePackage{physics-minimal}}{\RequirePackage{../../physics-minimal}}
 \RequirePackage{centernot}  % \centernot command
 \RequirePackage{cancel}  % cancel numbers
 \RequirePackage{signchart}  % sign charts
@@ -176,7 +177,7 @@
 % \RequirePackage{kbordermatrix}  % border text on matrices
 \RequirePackage[short]{optidef}  % optimization problem definitions
 \RequirePackage[single]{accents}  % fixes some nested accent issues with amsmath, adds manual accent set
-\RequirePackage{widebar}  % custom package for wider/better \bar{}
+\IfFileExists{widebar.sty}{\RequirePackage{widebar}}{\RequirePackage{../../widebar}}  % custom package for wider/better \bar{}
 \RequirePackage{xfrac}  % fraction types
 \RequirePackage{stackrel}
 

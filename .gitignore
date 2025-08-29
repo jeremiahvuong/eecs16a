@@ -5,4 +5,16 @@ main.aux
 main.run.xml
 main.bcf
 
+
+*.log
+*.synctex.gz
+*.aux
+*.bcf
+*.fls
+*.fdb_latexmk
+*.run.xml
+
+
+homework/
+
 .DS_Store
