@@ -1,2 +1,5 @@
 \contentsline {lecturesection}{\numberline {1}Introduction}{2}{lecturesection.1}%
+\contentsline {lecturesection}{\numberline {2}Vector Spaces/Subspaces, Norms, Distance, Inner Products, Angles}{2}{lecturesection.2}%
+\contentsline {subsection}{\numberline {2.1}Notation (and subsequent things we deal with)}{2}{subsection.3}%
+\contentsline {subsection}{\numberline {2.2}Vector Spaces}{3}{subsection.7}%
 \contentsfinish 

@@ -37,6 +37,169 @@ Such that in fourier analysis, low frequency components (low detail) dominate.
 In facial recognition, we need to go further down the combination since the beginning combinations
 are features that most (all?) facies satisfy.
 
+\lecture[]{Vector Spaces/Subspaces, Norms, Distance, Inner Products, Angles}
+
+\subsection{Notation (and subsequent things we deal with)}
+
+In this course, for cartesian coordinates, written vectors will be with a underline, $\underline{x}$,
+when printed, they will be in bold, $\bm{x}$.
+
+For vectors be weary of said index, sometime they will be 0-indexed, sometimes 1-indexed.
+$$ \bm{x} = \begin{bmatrix} x_0 \\ x_1 \\ \vdots \\ x_{n-1} \end{bmatrix}
+\quad \bm{x} = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_{n} \end{bmatrix}$$
+
+CT signals will be mapped, $x : \mathbb{R} \to \begin{array}{c} \mathbb{R} \\ \text{or} \\ \mathbb{C} \end{array}$. 
+Remember that the $x$ is the name, first space is the domain, second space is the codomain or range.
+
+$[ \mathbb{R} \to \mathbb{R} ]$: set of all real-valued functions of a real variable. \\
+$[ \mathbb{R} \to \mathbb{C} ]$: set of all complex-valued functions of a real variable. \\
+$ [\mathbb{Z} \to \mathbb{R} ]$: set of all real-valued functions (signals) of a discrete variable. (DT signals)
+
+Discrete time signals are represented in square brackets, $\bm{x}[n]$. Said DT signals have lolipops when graphed.
+
+% \begin{figure}[h]
+% \centering
+% \begin{tikzpicture}
+%     \begin{axis}[
+%         xlabel={$n$},
+%         ylabel={$x[n]$},
+%         axis lines=middle,
+%         grid=major,
+%         xmin=-1, xmax=8,
+%         ymin=-0.5, ymax=3.5,
+%         xtick={0,1,2,3,4,5,6,7},
+%         ytick={0,1,2,3},
+%         width=10cm,
+%         height=6cm
+%     ]
+    
+%     % Lollipop stems and circles for discrete time signal
+%     \addplot[only marks, mark=*, mark size=3pt, blue] coordinates {
+%         (0,2) (1,3) (2,1) (3,2.5) (4,1.5) (5,0.5) (6,2) (7,1)
+%     };
+    
+%     % Vertical lines (stems)
+%     \draw[blue, thick] (axis cs:0,0) -- (axis cs:0,2);
+%     \draw[blue, thick] (axis cs:1,0) -- (axis cs:1,3);
+%     \draw[blue, thick] (axis cs:2,0) -- (axis cs:2,1);
+%     \draw[blue, thick] (axis cs:3,0) -- (axis cs:3,2.5);
+%     \draw[blue, thick] (axis cs:4,0) -- (axis cs:4,1.5);
+%     \draw[blue, thick] (axis cs:5,0) -- (axis cs:5,0.5);
+%     \draw[blue, thick] (axis cs:6,0) -- (axis cs:6,2);
+%     \draw[blue, thick] (axis cs:7,0) -- (axis cs:7,1);
+    
+%     \end{axis}
+% \end{tikzpicture}
+% \caption{Example of a discrete time signal $x[n]$ with lollipop representation}
+% \end{figure}
+
+\begin{definition}[Kronecker Delta / DT Impulse]
+For discrete time, that is, $n \in \mathbb{Z}$,
+$$ \delta[n] = \begin{cases}
+    1 & n = 0 \\
+    0 & n \neq 0
+\end{cases} $$
+\end{definition}
+
+\begin{definition}[Unit Step Function]
+For discrete time, that is, $n \in \mathbb{Z}$,
+$$ u[n] = \begin{cases}
+    1 & n \geq 0 \\
+    0 & n < 0
+\end{cases} $$
+\end{definition}
+
+\begin{definition}[Complex Exponential]
+  $$ x[n] = (1)^n = \cos{\pi n} = e^{i \pi n} $$
+\end{definition}
+
+$x$ representations:
+
+$x$: the function (signal) in its entirety.\\
+$x[n]$: the value of the DT signal at time $n$.\\
+$x(t)$: the value of the CT signal at time $t$.
+
+\subsection{Vector Spaces}
+
+A vector space $\mathcal{V}$ is a nonempty set of objects
+(elements or vectors) that satisfies the following axioms TEN axioms:
+
+Closure Asioms, A1-A2 \\
+Vector Addition, A3-A6 \\
+Scalar Multiplication, A7-A10
+
+\begin{definition}[A1: Closure under vector addition]
+  For every $x, y \in \mathcal{V}$, there's a unique element $z \in \mathcal{V}$ 
+  (called the sum of $x$ and $y$) such that $x + y = z$.
+\end{definition}
+
+For example $x,y \in \mathbb{R}$, where $\mathcal{V} = \mathbb{R}$.
+
+Ex:
+$\mathcal{V} = \mathbb{R}^2$,
+$$ \bm{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}, \bm{y} = \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} $$
+$$ \bm{x} + \bm{y} = \begin{bmatrix} x_1 + y_1 \\ x_2 + y_2 \end{bmatrix}
+= \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} $$
+
+Ex: $\mathcal{V} = [\mathbb{Z} \to \mathbb{R} ]$ (the set of all real DT signals) \\
+Addition is defined pointwise,
+$$ \bm{x} = \begin{bmatrix} \vdots \\ x[-1] \\ x[0] \\ x[1] \\ \dots \end{bmatrix} $$
+
+\begin{definition}[A2: Closure under scalar multiplication]
+$ \forall x \in \mathcal{V}$ and $\forall \alpha \in \mathbb{R}$ or $\mathbb{C}$,
+there's a unique element $z \in \mathcal{V}$ called the product of $x$ and $\alpha$ such that $x \alpha = z$.
+\end{definition}
+
+Ex: $\mathcal{V} = \mathbb{R}^2$, $\forall \alpha \in \mathbb{R}$,
+$$ \bm{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} $$
+$$ \alpha \bm{x} = \begin{bmatrix} \alpha x_1 \\ \alpha x_2 \end{bmatrix} \in \mathbb{R}^2 $$
+
+Ex: $x \in [\mathbb{Z} \to \mathbb{R} ]$, $z = \alpha x$,
+$$ x[n] = \begin{cases}
+0 & n < 0 \\
+(\frac{1}{2})^n & n \geq 0
+\end{cases} = (\frac{1}{2})^n u [n]$$
+
+\begin{definition}[A3: Commutative law for vector addition]
+  For every $x, y \in \mathcal{V}$, we have $$x + y = y + x$$
+\end{definition}
+
+\begin{definition}[A4: Associative law for vector addition]
+  For every $x, y, z \in \mathcal{V}$,
+  $$ (x + y) + z = x + (y + z) $$
+\end{definition}
+
+\begin{definition}[A5: Exisitence of a zero element]
+  There exists an element $0 \in \mathcal{V}$ such that for every $x \in \mathcal{V}$, we have $$x + 0 = x$$
+\end{definition}
+
+Ex: $\mathcal{V} = [\mathbb{Z} \to \mathbb{R} ]$, $x[n] = 0$ where $\forall n \in \mathbb{Z}$.
+
+Ex: $\mathcal{V} = [\mathbb{R} \to \mathbb{R} ]$, $x(t) = 0$ where $\forall t \in \mathbb{R}$.
+
+
+\begin{definition}[A6: Exisitence of a negative]
+  $\forall x \in \mathcal{V}$, the element $(-1) x$ (aka "$-x$") exists such that $$x + (-1)x = 0$$
+\end{definition}
+
+\begin{definition}[A7: Associative law for scalar multiplication]
+  $\forall x \in \mathcal{V}$, and $\forall \alpha, \beta \in \mathbb{R}$ or $\mathbb{C}$,
+  $$ \alpha (\beta x) = (\alpha \beta) x $$
+\end{definition}
+
+\begin{definition}[A8: Distributive law for scalar multiplication]
+  $\forall x, y \in \mathcal{V}$, and $\forall \alpha \in \mathbb{R}$ or $\mathbb{C}$,
+  $$ \alpha (x + y) = \alpha x + \alpha y $$
+\end{definition}
+
+\begin{definition}[A9: Distributivity over scalar addition]
+  $\forall x \in \mathcal{V}$, and $\forall \alpha, \beta \in \mathbb{R}$ or $\mathbb{C}$,
+  $$ (\alpha + \beta) x = \alpha x + \beta x $$
+\end{definition}
+
+\begin{definition}[A10: Unit Multiplicaiton (Existence of a multiplicative identity)]
+  There exists an element $1 \in \mathcal{V}$ such that for every $x \in \mathcal{V}$, we have $$1 x = x$$
+\end{definition}
 
 \end{document}
 
